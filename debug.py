@@ -1,6 +1,6 @@
 # ==================================================================================
 #
-#       Copyright (c) 2020 Samsung Electronics Co., Ltd. All Rights Reserved.
+#       Copyright (c) 2024 Alexandre Huff
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -16,7 +16,21 @@
 #
 # ==================================================================================
 
-from .A1PolicyHandler import A1PolicyHandler
-from .HealthCheckHandler import HealthCheckHandler
-from .SubscriptionHandler import SubscriptionHandler
-from .IndicationHandler import IndicationHandler
+# This file is intended just to run this project in vscode. Should not appear in official repo. :-)
+
+import signal
+from src.hwxapp import HWXapp
+
+
+def launchXapp():
+    hwxapp = HWXapp()
+    hwxapp.start(True)
+
+    signum = signal.sigwait((signal.SIGINT, signal.SIGTERM))
+    print(f'Signal handler called with signal {signal.Signals(signum).name} ({signum})')
+
+    hwxapp.stop()
+
+
+if __name__ == "__main__":
+    launchXapp()

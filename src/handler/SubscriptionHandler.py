@@ -24,6 +24,8 @@ from ricxappframe.xapp_frame import RMRXapp, rmr
 from ..utils.constants import Constants
 from ._BaseHandler import _BaseHandler
 from ..manager.SdlManager import SdlManager
+
+
 class SubscriptionHandler(_BaseHandler):
 
     def __init__(self, rmr_xapp: RMRXapp, msgtype):

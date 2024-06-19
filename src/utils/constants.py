@@ -24,9 +24,14 @@ class Constants:
     A1_POLICY_REQ = 20010
     A1_POLICY_RESP = 20011
     RIC_ALARM_UPDATE = 110
-    ACTION_TYPE = "REPORT"
-    SUBSCRIPTION_PATH = "http://service-{}-{}-http:{}"
+    ACTION_TYPE = "report"
+    SUBSCRIPTION_PATH = "http://service-{}-{}-http.{}:{}{}"
     PLT_NAMESPACE = "ricplt"
     SUBSCRIPTION_SERVICE = "submgr"
-    SUBSCRIPTION_PORT = "3800"
+    SUBSCRIPTION_PORT = "8088"
+    SUBSCRIPTION_RESOURCE = "/ric/v1/subscriptions"
     SUBSCRIPTION_REQ = 12011
+    RIC_INDICATION = 12050
+    DEFAULT_HTTP_PORT = 8080
+    DEFAULT_RMRROUTE_PORT = 4561
+    DEFAULT_RMRDATA_PORT = 4560

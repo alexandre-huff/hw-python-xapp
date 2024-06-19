@@ -16,7 +16,16 @@
 FROM python:3.8-alpine
 
 # copy rmr libraries from builder image in lieu of an Alpine package
-COPY --from=nexus3.o-ran-sc.org:10002/o-ran-sc/bldr-alpine3-rmr:4.0.5 /usr/local/lib64/librmr* /usr/local/lib64/
+COPY --from=nexus3.o-ran-sc.org:10002/o-ran-sc/bldr-alpine3-rmr:4.6.0 /usr/local/lib64/librmr* /usr/local/lib64/
+# RUN apk update && apk add autoconf automake build-base cmake libtool pkgconfig git
+# RUN git clone --branch 4.9.4 https://gerrit.oran-osc.org/r/ric-plt/lib/rmr \
+#     && cd rmr \
+#     && mkdir .build; cd .build \
+#     && echo "<<<installing rmr devel headers>>>" \
+#     && cmake .. -DDEV_PKG=1; make install \
+#     && echo "<<< installing rmr .so>>>" \
+#     && cmake .. -DDEV_PKG=0; make install
+
 # RMR setup
 RUN mkdir -p /opt/route/
 COPY init/test_route.rt /opt/route/test_route.rt
@@ -37,6 +46,7 @@ RUN pip install /tmp
 # Env - TODO- Configmap
 ENV PYTHONUNBUFFERED 1
 ENV CONFIG_FILE=/tmp/init/config-file.json
+ENV CONFIG_MAP_NAME=/tmp/init/config-map.yaml
 
 # For Default DB connection, modify for resp kubernetes env
 ENV DBAAS_SERVICE_PORT=6379

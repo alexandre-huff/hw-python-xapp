@@ -1,6 +1,6 @@
 # ==================================================================================
 #
-#       Copyright (c) 2020 Samsung Electronics Co., Ltd. All Rights Reserved.
+#       Copyright (c) 2024 Alexandre Huff. All Rights Reserved.
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -15,8 +15,3 @@
 #   limitations under the License.
 #
 # ==================================================================================
-
-from .A1PolicyHandler import A1PolicyHandler
-from .HealthCheckHandler import HealthCheckHandler
-from .SubscriptionHandler import SubscriptionHandler
-from .IndicationHandler import IndicationHandler

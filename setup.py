@@ -34,7 +34,7 @@ setup(
     author='Naman Gupta',
     author_email='naman.gupta@samsung.com',
     python_requires='>=3.8',
-    install_requires=["ricxappframe>=1.1.1,<2.3.0"],
+    install_requires=["ricxappframe==3.2.2", "six", "pycrate==0.7.5"],
     entry_points={"console_scripts": ["run-hw-python.py=src.main:launchXapp"]},  # adds a magical entrypoint for Docker
     data_files=[("", ["LICENSE.txt"])],
 )

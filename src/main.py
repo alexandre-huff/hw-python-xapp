@@ -16,12 +16,18 @@
 #
 # ==================================================================================
 
+import signal
 from .hwxapp import HWXapp
 
 
 def launchXapp():
     hwxapp = HWXapp()
-    hwxapp.start()
+    hwxapp.start(True)
+
+    signum = signal.sigwait((signal.SIGINT, signal.SIGTERM))
+    print(f'Signal handler called with signal {signal.Signals(signum).name} ({signum})')
+
+    hwxapp.stop()
 
 
 if __name__ == "__main__":

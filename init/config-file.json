@@ -5,9 +5,9 @@
         {
             "name": "hw-python",
             "image": {
-                "registry": "nexus3.o-ran-sc.org:10004",
-                "name": "o-ran-sc/ric-app-hw-python",
-                "tag": "1.1.0"
+                "registry": "127.0.0.1:32000",
+                "name": "hw-python",
+                "tag": "latest"
             }
         }
     ],
@@ -29,12 +29,8 @@
                 "name": "rmrdata",
                 "container": "hw-python",
                 "port": 4560,
-                "rxMessages": ["RIC_SUB_RESP", "RIC_SUB_FAILURE", "RIC_SUB_DEL_RESP", "RIC_INDICATION"],
-                "txMessages": ["RIC_SUB_REQ", "RIC_SUB_DEL_REQ", "RIC_SGNB_ADDITION_REQ", "RIC_SGNB_ADDITION_ACK"],
-                "mtypes" : [
-                        {"name":"TESTNAME1","id":55555},
-                        {"name":"TESTNAME2","id":55556}
-                ],
+                "rxMessages": ["RIC_SUB_RESP", "RIC_SUB_FAILURE", "RIC_SUB_DEL_RESP", "A1_POLICY_REQ", "RIC_INDICATION"],
+                "txMessages": ["RIC_SUB_REQ", "RIC_SUB_DEL_REQ", "A1_POLICY_RESP", "A1_POLICY_QUERY", "RIC_HEALTH_CHECK_RESP"],
                 "policies": [1],
                 "description": "rmr data port for hw-python"
             }
@@ -44,19 +40,14 @@
         "protPort": "tcp:4560",
         "maxSize": 2072,
         "numWorkers": 1,
-        "txMessages": [
-            "RIC_SUB_REQ", "A1_POLICY_RESP", "A1_POLICY_QUERY", "RIC_HEALTH_CHECK_RESP"
-        ],
-        "rxMessages": [
-            "RIC_SUB_RESP",
-            "A1_POLICY_REQ", "RIC_HEALTH_CHECK_REQ"
-        ],
-    "policies": [1]
+        "rxMessages": ["RIC_SUB_RESP", "RIC_SUB_FAILURE", "RIC_SUB_DEL_RESP", "A1_POLICY_REQ", "RIC_INDICATION"],
+        "txMessages": ["RIC_SUB_REQ", "RIC_SUB_DEL_REQ", "A1_POLICY_RESP", "A1_POLICY_QUERY", "RIC_HEALTH_CHECK_RESP"],
+        "policies": [1]
     },
     "controls": {
-            "fileStrorage": false
+        "fileStrorage": false
     },
     "db" : {
-            "waitForSdl": false
+        "waitForSdl": false
     }
 }

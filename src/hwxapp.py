@@ -25,6 +25,7 @@ from .manager import *
 
 from .handler import *
 from mdclogpy import Logger
+import time
 
 
 class HWXapp:
@@ -41,21 +42,26 @@ class HWXapp:
         """
         Function that runs when xapp initialization is complete
         """
+        rmr_xapp.logger.mdclog_format_init()
+        time.sleep(5)   # wait for xApp to get registered and routes are updated
         rmr_xapp.logger.info("HWXapp.post_init :: post_init called")
         # self.sdl_alarm_mgr = SdlAlarmManager()
         sdl_mgr = SdlManager(rmr_xapp)
-        sdl_mgr.sdlGetGnbList()
-        a1_mgr = A1PolicyManager(rmr_xapp)
-        a1_mgr.startup()
-        sub_mgr = SubscriptionManager(rmr_xapp)
-        enb_list = sub_mgr.get_enb_list()
+        sdl_mgr.sdlGetNodeBList()
+        # a1_mgr = A1PolicyManager(rmr_xapp)
+        # a1_mgr.startup()
+        self._sub_mgr = SubscriptionManager(rmr_xapp)
+        enb_list = self._sub_mgr.get_enb_list()
         for enb in enb_list:
-            sub_mgr.send_subscription_request(enb)
-        gnb_list = sub_mgr.get_gnb_list()
+            enb_id = enb.inventory_name
+            self._sub_mgr.send_subscription_request(enb_id)
+        gnb_list = self._sub_mgr.get_gnb_list()
         for gnb in gnb_list:
-            sub_mgr.send_subscription_request(gnb)
-        metric_mgr = MetricManager(rmr_xapp)
-        metric_mgr.send_metric()
+            gnb_id = gnb.inventory_name
+            self._sub_mgr.send_subscription_request(gnb_id)
+            # sub_mgr.subscribe(gnb_id)
+        # metric_mgr = MetricManager(rmr_xapp)
+        # metric_mgr.send_metric()
 
     def _handle_config_change(self, rmr_xapp, config):
         """
@@ -78,7 +84,8 @@ class HWXapp:
         """
         HealthCheckHandler(self._rmr_xapp, Constants.RIC_HEALTH_CHECK_REQ)
         A1PolicyHandler(self._rmr_xapp, Constants.A1_POLICY_REQ)
-        SubscriptionHandler(self._rmr_xapp,Constants.SUBSCRIPTION_REQ)
+        SubscriptionHandler(self._rmr_xapp, Constants.SUBSCRIPTION_REQ)
+        IndicationHandler(self._rmr_xapp, Constants.RIC_INDICATION)
 
     def start(self, thread=False):
         """
@@ -94,4 +101,6 @@ class HWXapp:
         can only be called if thread=True when started
         TODO: could we register a signal handler for Docker SIGTERM that calls this?
         """
+        self._rmr_xapp.logger.info("Shutting down hw-python xApp...")
+        self._sub_mgr.unsubscribe()
         self._rmr_xapp.stop()
